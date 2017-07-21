@@ -27,6 +27,7 @@ static int dump_ascii(lua_State *L)
   char *redirect = " >temp.dump";
   for(i=0;i < 11; i++)
     final_command[c+i] = redirect[i];
+  final_command[c+i] = 0;
   system(final_command);
   return 1;
 }
