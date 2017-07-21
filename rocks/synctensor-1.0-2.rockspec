@@ -1,14 +1,16 @@
 package = "syncTensor"
 version = "1.0-2"
 source = {
-   url = "..." -- We don't have one yet
+   url = "git:github.com/amartya18x/SyncTensor" -- We don't have one yet
 }
+
 description = {
    summary = "A package to transfer tensors from other libraries to torch7.",
    detailed = [[
       This will help return a table of torch tensors from
       some other formats like tensorflow etc.
    ]],
+   maintainer = "Amartya Sanyal <amartya18x@gmail.com>" 
    homepage = "http://...", -- We don't have one yet
    license = "MIT/X11" -- or whatever you like
 }
