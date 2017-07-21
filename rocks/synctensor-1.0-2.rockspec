@@ -1,7 +1,7 @@
 package = "syncTensor"
 version = "1.0-2"
 source = {
-   url = "git:github.com/amartya18x/syncTensor", -- We don't have one yet
+   url = "git://github.com/amartya18x/syncTensor", -- We don't have one yet
    tag = "master"
 }
 
