@@ -1,16 +1,16 @@
 require 'class'
 require 'pl'
 local _ = require 'moses'
-local ascii_reader = torch.class("ascii_reader")
+local sc = require 'synctensor._env'
+local tensor_reader = torch.class("tensor_reader", sc)
 
-function ascii_reader:__init(fName)
+function tensor_reader:__init(fName)
    self.fname = fName
-   self:read()
    self.read_flag = false
 end
 
-function ascii_reader:read()
-   io.input(self.fname)
+function tensor_reader:read()
+   io.input(self.dumpname)
    self.text = io.read("*all")
    self.tbl = _.map(self.text:split(" "),
 		    function (i, v)
@@ -19,7 +19,7 @@ function ascii_reader:read()
    self.read_flag = true
 end
 
-function ascii_reader:get_tensors()
+function tensor_reader:get_tensors()
    assert(self.read_flag)
    self.num_tensor = self.tbl[1]
    local cur_idx = 2
@@ -41,8 +41,24 @@ function ascii_reader:get_tensors()
    end
 end
    
-function ascii_reader:clear()
+function tensor_reader:clear()
    self.tbl = nil
    self.read_flag = false
    collectgarbage()
 end
+
+function tensor_reader:read_tf_tensors()
+   local fname = self.fname
+   local temp_dump = "temp.dump"
+   --os.execute("python dump_ascii.py "..fname.." > "..temp_dump)
+   print("Reading tf params....")
+   dump_ascii(fname)
+   print("reading from text dump...")
+   self.dumpname = temp_dump
+   self:read()
+   os.execute("rm "..temp_dump)
+   print("Parsing to get Tensors")
+   local tensors = self:get_tensors()
+   return tensors
+end
+
