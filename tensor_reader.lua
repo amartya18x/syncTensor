@@ -28,7 +28,6 @@ function tensor_reader:get_tensors()
       local n_dim = self.tbl[cur_idx]
       cur_idx = cur_idx + 1
       local shape = tablex.sub(self.tbl, cur_idx, cur_idx + n_dim-1)
-      print(shape)
       cur_idx = cur_idx + n_dim
       local n_elem = _.reduce(shape,
 			      function(memo,v)
@@ -51,14 +50,11 @@ function tensor_reader:read_tf_tensors()
    local fname = self.fname
    local temp_dump = "temp.dump"
    --os.execute("python dump_ascii.py "..fname.." > "..temp_dump)
-   print("Reading tf params....")
    dump_ascii(fname)
-   print("reading from text dump...")
    self.dumpname = temp_dump
    self:read()
    os.execute("rm "..temp_dump)
-   print("Parsing to get Tensors")
-   local tensors = self:get_tensors()
-   return tensors
+   self:get_tensors()
+   return self.tensors
 end
 
